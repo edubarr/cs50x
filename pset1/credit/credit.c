@@ -1,72 +1,82 @@
 #include <stdio.h>
 #include <cs50.h>
-#include <math.h>
+
+int contadigitos(long numero);
+int teste(long cartao, int tamanho);
+int validar(long cartao, int tamanho);
 
 int main()
 {
-    long card = get_long("Number: ");
+    long cartao = get_long("Number: ");
 
-    int card_size = length(card);
+    int tamanho = contadigitos(cartao);
 
-    if (checksum(card, card_size))
+    int x = teste(cartao, tamanho); //0 = INVALID, 1 = AMEX, 2 = MASTER, 3 = VISA
+
+    if (x != 0)
     {
-        /* code */
+        if (validar(cartao, tamanho))
+        {
+            if (x == 1)
+            {
+                printf("AMEX\n");
+            }
+            else if (x == 2)
+            {
+                printf("MASTER\n");
+            }
+            else if (x == 3)
+            {
+                printf("VISA\n");
+            }
+        }
+
+        else
+        {
+            printf("INVALID");
+        }
     }
-    
+    else
+    {
+        printf("INVALID");
+    }
 
     return 0;
 }
 
-int checksum(long cardc, int size)
+int contadigitos(long numero)
 {
-    int digits[size], digitsx2[size + 1], digits3[size + 1];
-    int i, sum2x = 0, sum3 = 0, totalsum = 0;
+    int count = 0;
 
-    for (i = 0; i < size; i++) //Cria um array com os digitos do numero
+    while (numero != 0)
     {
-        digits[i] = cardc % 10;
-        cardc /= 10;
+        numero = numero / 10;
+        count++;
     }
+    return count;
+}
 
-    for (i = 0; i < size; i++) //Zera o array 2
+int teste(long cartao, int tamanho)
+{
+    if (tamanho == 13 || tamanho == 15 || tamanho == 16)
     {
-        digitsx2[i] = 0;
-    }
 
-    for (i = 1; i <= size; i = i + 2) //Atribui os valores ao array 2
-    {
-        digitsx2[i] = digits[i] * 2;
-    }
-
-    for (i = 1; i <= size; i = i + 2) //Separa os digitos dos numeros de 2 digitos.
-    {
-        if (digitsx2[i] > 9)
+        if (cartao / 10000000000000 == 34 || cartao / 10000000000000 == 37)
         {
-            digitsx2[i + 1] = digitsx2[i] % 10;
-            digitsx2[i] /= 10;
+            return 1;
         }
-    }
-
-    for (i = 0; i <= size; i = i + 2) //Atribui os valores ao array 3
-    {
-        digits3[i] = digits[i];
-    }
-
-    for (i = 0; i < size; i++) //Calcula a soma x2
-    {
-        sum2x += digitsx2[i];
-    }
-
-    for (i = 0; i < size; i++) //Calcula a soma 3
-    {
-        sum3 += digits3[i];
-    }
-
-    totalsum = sum2x + sum3;
-
-    if (totalsum % 10 == 0)
-    {
-        return 1;
+        else if (cartao / 100000000000000 == 51 || cartao / 100000000000000 == 52 || cartao / 100000000000000 == 53 || cartao / 100000000000000 == 54 || cartao / 100000000000000 == 55)
+        {
+            return 2;
+        }
+        else if (cartao / 1000000000000000 == 4 || cartao / 1000000000000 == 4)
+        {
+            return 3;
+        }
+        else
+        {
+            return 0;
+        }
     }
     else
     {
@@ -74,9 +84,61 @@ int checksum(long cardc, int size)
     }
 }
 
-int length(long cards)
+int validar(long cartao, int tamanho)
 {
-    int digits = floor(log10(cards)) + 1;
+    int digits[16] = {0};
 
-    return digits;
+    long cartaocopia = cartao;
+
+    for (int i = 0; cartaocopia != 0; i++)
+    {
+        int digito = cartaocopia % 10;
+        digits[i] = digito;
+        cartaocopia = cartaocopia / 10;
+    }
+
+    int digit1[8] = {0};
+
+    for (int i = 0, j = 0; i < 8; i++, j += 2)
+    {
+        digit1[i] = digits[j];
+    }
+
+    int digit2[8] = {0};
+
+    for (int i = 0, j = 1; i < 8; i++, j += 2)
+    {
+        digit2[i] = digits[j] * 2;
+    }
+
+    int soma1 = 0;
+    int soma2 = 0;
+
+    for (int i = 0; i < 8; i++)
+    {
+        soma1 += digit1[i];
+    }
+    for (int i = 0; i < 8; i++)
+    {
+        if (digit2[i] < 10)
+        {
+            soma2 += digit2[i];
+        }
+        else
+        {
+            int d1 = digit2[i] % 10;
+            int d2 = digit2[i] / 10;
+
+            soma2 += d1 + d2;
+        }
+    }
+
+    if ((soma1 + soma2) % 10 == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
