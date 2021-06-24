@@ -3,7 +3,7 @@
 
 int contadigitos(long numero);
 int teste(long cartao, int tamanho);
-int validar(long cartao, int tamanho);
+int validar(long cartao);
 
 int main()
 {
@@ -15,7 +15,7 @@ int main()
 
     if (x != 0)
     {
-        if (validar(cartao, tamanho))
+        if (validar(cartao))
         {
             if (x == 1)
             {
@@ -23,7 +23,7 @@ int main()
             }
             else if (x == 2)
             {
-                printf("MASTER\n");
+                printf("MASTERCARD\n");
             }
             else if (x == 3)
             {
@@ -84,7 +84,7 @@ int teste(long cartao, int tamanho)
     }
 }
 
-int validar(long cartao, int tamanho)
+int validar(long cartao)
 {
     int digits[16] = {0};
 

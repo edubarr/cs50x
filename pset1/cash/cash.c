@@ -10,7 +10,7 @@ int main(void)
     int coins = 0;
     float cash = get_cash();
 
-    int cents = round(cash * 100);
+    int cents = cash * 100;
 
     if (cents >= 25)
     {
