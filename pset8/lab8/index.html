@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet" />
+  <link href="styles.css" rel="stylesheet" />
+  <title>Trivia!</title>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // Check multiple choice
+      // Correct Button
+      let correct = document.querySelector('.correct');
+      correct.addEventListener('click', function () {
+        correct.style.backgroundColor = 'green';
+        document.querySelector('#feedback1').innerHTML = 'Correct!';
+      });
+
+      // Incorrect buttons
+      let incorrects = document.querySelectorAll('.incorrect');
+      for (let i = 0; i < incorrects.length; i++) {
+        incorrects[i].addEventListener('click', function() {
+          incorrects[i].style.backgroundColor = 'red';
+          document.querySelector('#feedback1').innerHTML = 'Incorrect';
+        });
+        
+
+        // Check free response
+        document.querySelector('#check').addEventListener('click', function() {
+          let input = document.querySelector('input');
+          if (input.value === 'js') {
+            input.style.backgroundColor = 'green';
+            document.querySelector('#feedback2').innerHTML = 'Correct!';
+          }
+          else {
+            input.style.backgroundColor = 'red';
+            document.querySelector('#feedback2').innerHTML = 'Incorrect';
+          }
+        });
+      }
+    });
+      // TODO: Add code to check answers to questions
+  </script>
+</head>
+
+<body>
+  <div class="jumbotron">
+    <h1>Trivia!</h1>
+  </div>
+
+  <div class="container">
+    <div class="section">
+      <h2>Part 1: Multiple Choice</h2>
+      <hr />
+      <h3>What web element you use to get the ip adress from a domain?</h3>
+
+      <div id="buttons">
+        <button class="incorrect">HTTP</button>
+        <button class="incorrect">TCP/IP</button>
+        <button class="correct">DNS</button>
+        <button class="incorrect">CSS</button>
+        <button class="incorrect">JavaScript</button>
+      </div>
+
+      <p id="feedback1"></p>
+    </div>
+
+    <div class="section">
+      <h2>Part 2: Free Response</h2>
+      <hr />
+
+      <h3>What web element you use to add scripts to your site?</h3>
+      <input type="text"></input>
+      <button id="check">Check Answer</button>
+
+      <p id="feedback2"></p>
+
+    </div>
+  </div>
+</body>
+
+</html>
