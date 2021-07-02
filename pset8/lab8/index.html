@@ -8,28 +8,28 @@
   <title>Trivia!</title>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function checkMultiple() {
 
       // Check multiple choice
       // Correct Button
-      let correct = document.querySelector('.correct');
-      correct.addEventListener('click', function () {
+      const correct = document.querySelector('.correct');
+      correct.addEventListener('click', function giveFeedback() {
         correct.style.backgroundColor = 'green';
         document.querySelector('#feedback1').innerHTML = 'Correct!';
       });
 
       // Incorrect buttons
-      let incorrects = document.querySelectorAll('.incorrect');
+      const incorrects = document.querySelectorAll('.incorrect');
       for (let i = 0; i < incorrects.length; i++) {
-        incorrects[i].addEventListener('click', function() {
+        incorrects[i].addEventListener('click', function giveFeedback() {
           incorrects[i].style.backgroundColor = 'red';
           document.querySelector('#feedback1').innerHTML = 'Incorrect';
         });
         
 
         // Check free response
-        document.querySelector('#check').addEventListener('click', function() {
-          let input = document.querySelector('input');
+        document.querySelector('#check').addEventListener('click', function checkFree() {
+          const input = document.querySelector('input');
           if (input.value === 'js') {
             input.style.backgroundColor = 'green';
             document.querySelector('#feedback2').innerHTML = 'Correct!';
